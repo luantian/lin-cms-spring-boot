@@ -1,14 +1,18 @@
 package io.github.talelin.latticy.controller.v1;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.talelin.autoconfigure.exception.NotFoundException;
+import io.github.talelin.latticy.dto.Banner.BannerDTO;
 import io.github.talelin.latticy.model.BannerDO;
 import io.github.talelin.latticy.service.BannerService;
+import io.github.talelin.latticy.vo.DeletedVO;
 import io.github.talelin.latticy.vo.PageResponseVO;
+import io.github.talelin.latticy.vo.UpdatedVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import sun.util.resources.ga.LocaleNames_ga;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -21,11 +25,33 @@ public class BannerController {
     @Autowired
     private BannerService bannerService;
 
+    @DeleteMapping("/{id}")
+    public DeletedVO delete(
+            @PathVariable @Positive Long id
+    ) {
+        bannerService.delete(id);
+        return new DeletedVO();
+    }
+
+    @PutMapping("/{id}")
+    public UpdatedVO update(
+            @PathVariable @Positive Long id,
+            @RequestBody @Valid BannerDTO bannerDTO
+    ) {
+        bannerService.update(bannerDTO, id);
+        return new UpdatedVO();
+    }
+
     @GetMapping("/{id}")
     public BannerDO getById(
             @PathVariable @Positive Long id
     ) {
-        return bannerService.getById(id);
+
+        BannerDO bannerDO = bannerService.getById(id);
+
+        if (bannerDO == null) throw new NotFoundException();
+
+        return bannerDO;
     }
 
     @GetMapping("/page")
@@ -34,13 +60,7 @@ public class BannerController {
             @RequestParam @Min(0) Integer count
     ) {
 
-        IPage<BannerDO> paging = bannerService.getBannerByPage(page, count);
-
-        Integer total = (int)paging.getTotal();
-        List<BannerDO> items = paging.getRecords();
-        Integer current = (int)paging.getCurrent();
-        Integer size = (int)paging.getSize();
-        return new PageResponseVO<>(total, items, current, size);
+        return bannerService.getBannerByPage(page, count);
 
     }
 
