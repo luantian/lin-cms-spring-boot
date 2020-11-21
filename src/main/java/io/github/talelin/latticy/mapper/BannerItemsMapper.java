@@ -5,6 +5,5 @@ import io.github.talelin.latticy.model.BannerItemsDO;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BannerItemMapper extends BaseMapper<BannerItemsDO> {
-
+public interface BannerItemsMapper extends BaseMapper<BannerItemsDO> {
 }

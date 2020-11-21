@@ -7,7 +7,7 @@ import io.github.talelin.autoconfigure.exception.NotFoundException;
 import io.github.talelin.latticy.bo.BannerWithItemsBO;
 import io.github.talelin.latticy.common.mybatis.Page;
 import io.github.talelin.latticy.dto.Banner.BannerDTO;
-import io.github.talelin.latticy.mapper.BannerItemMapper;
+import io.github.talelin.latticy.mapper.BannerItemsMapper;
 import io.github.talelin.latticy.mapper.BannerMapper;
 import io.github.talelin.latticy.model.BannerDO;
 import io.github.talelin.latticy.model.BannerItemsDO;
@@ -26,11 +26,11 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, BannerDO> imple
     private BannerMapper bannerMapper;
 
     @Autowired
-    private BannerItemMapper bannerItemMapper;
+    private BannerItemsMapper bannerItemsMapper;
 
     @Override
     public BannerWithItemsBO getBannerWithItems(Long id) {
-        BannerDO banner = this.getById(id);
+        BannerDO banner = bannerMapper.selectById(id);
 
         if (banner == null) throw new NotFoundException(10020);
 
@@ -38,7 +38,7 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, BannerDO> imple
 
         wrapper.lambda().eq(BannerItemsDO::getBannerId, id);
 
-        List<BannerItemsDO> bannerItems = bannerItemMapper.selectList(wrapper);
+        List<BannerItemsDO> bannerItems = bannerItemsMapper.selectList(wrapper);
 
         return new BannerWithItemsBO(banner, bannerItems);
 
@@ -69,7 +69,7 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, BannerDO> imple
 
     @Override
     public void delete(Long id) {
-        BannerDO bannerDO = this.getById(id);
+        BannerDO bannerDO = bannerMapper.selectById(id);
         if (bannerDO == null) throw new NotFoundException();
         this.removeById(id);
     }

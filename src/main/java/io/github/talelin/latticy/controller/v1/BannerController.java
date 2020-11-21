@@ -1,7 +1,5 @@
 package io.github.talelin.latticy.controller.v1;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import io.github.talelin.autoconfigure.exception.NotFoundException;
 import io.github.talelin.latticy.bo.BannerWithItemsBO;
 import io.github.talelin.latticy.dto.Banner.BannerDTO;
 import io.github.talelin.latticy.model.BannerDO;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
-import java.util.List;
 
 @RestController
 @RequestMapping("/v1/banner")

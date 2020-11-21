@@ -1,27 +1,26 @@
 package io.github.talelin.latticy.bo;
 
-
 import io.github.talelin.latticy.model.BannerDO;
 import io.github.talelin.latticy.model.BannerItemsDO;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 public class BannerWithItemsBO {
+
     private Integer id;
     private String name;
+    private String description;
     private String title;
     private String img;
-    private String description;
+    private List<BannerItemsDO> items;
 
-    List<BannerItemsDO> items;
-
-    public BannerWithItemsBO(BannerDO bannerDO, List<BannerItemsDO> items) {
-        BeanUtils.copyProperties(bannerDO, this);
+    public BannerWithItemsBO(BannerDO banner, List<BannerItemsDO> items) {
+        BeanUtils.copyProperties(banner, this);
         this.setItems(items);
     }
 
