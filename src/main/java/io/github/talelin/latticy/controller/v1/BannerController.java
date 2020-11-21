@@ -4,6 +4,7 @@ import io.github.talelin.latticy.bo.BannerWithItemsBO;
 import io.github.talelin.latticy.dto.Banner.BannerDTO;
 import io.github.talelin.latticy.model.BannerDO;
 import io.github.talelin.latticy.service.BannerService;
+import io.github.talelin.latticy.vo.CreatedVO;
 import io.github.talelin.latticy.vo.DeletedVO;
 import io.github.talelin.latticy.vo.PageResponseVO;
 import io.github.talelin.latticy.vo.UpdatedVO;
@@ -22,6 +23,14 @@ public class BannerController {
 
     @Autowired
     private BannerService bannerService;
+
+    @PostMapping("/create")
+    public CreatedVO create(
+            @RequestBody @Valid BannerDTO bannerDTO
+    ) {
+        bannerService.create(bannerDTO);
+        return new CreatedVO();
+    }
 
     @DeleteMapping("/{id}")
     public DeletedVO delete(

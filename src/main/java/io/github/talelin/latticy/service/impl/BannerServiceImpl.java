@@ -29,6 +29,13 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, BannerDO> imple
     private BannerItemsMapper bannerItemsMapper;
 
     @Override
+    public Boolean create(BannerDTO bannerDTO) {
+        BannerDO bannerDO = new BannerDO();
+        BeanUtils.copyProperties(bannerDTO, bannerDO);
+        return bannerMapper.insert(bannerDO) > 0;
+    }
+
+    @Override
     public BannerWithItemsBO getBannerWithItems(Long id) {
         BannerDO banner = bannerMapper.selectById(id);
 
@@ -71,7 +78,7 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, BannerDO> imple
     public void delete(Long id) {
         BannerDO bannerDO = bannerMapper.selectById(id);
         if (bannerDO == null) throw new NotFoundException();
-        this.removeById(id);
+        bannerMapper.deleteById(id);
     }
 
 }
