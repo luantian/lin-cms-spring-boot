@@ -2,6 +2,7 @@ package io.github.talelin.latticy.controller.v1;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.talelin.autoconfigure.exception.NotFoundException;
+import io.github.talelin.latticy.bo.BannerWithItemsBO;
 import io.github.talelin.latticy.dto.Banner.BannerDTO;
 import io.github.talelin.latticy.model.BannerDO;
 import io.github.talelin.latticy.service.BannerService;
@@ -43,15 +44,10 @@ public class BannerController {
     }
 
     @GetMapping("/{id}")
-    public BannerDO getById(
+    public BannerWithItemsBO getBannerWithItems(
             @PathVariable @Positive Long id
     ) {
-
-        BannerDO bannerDO = bannerService.getById(id);
-
-        if (bannerDO == null) throw new NotFoundException();
-
-        return bannerDO;
+        return bannerService.getBannerWithItems(id);
     }
 
     @GetMapping("/page")
